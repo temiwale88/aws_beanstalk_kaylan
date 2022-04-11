@@ -1,0 +1,29 @@
+version: 0.2
+
+eb_codebuild_settings:  
+  CodeBuildServiceRole: arn:aws:iam::180789647333:role/EBCLI-CodeBuildRole  
+  ComputeType: BUILD_GENERAL1_SMALL  
+  Image: aws/codebuild/standard:2.0  
+  Timeout: 10  
+      
+phases:
+  install:
+    runtime-versions:
+      java: openjdk8
+    commands:
+      - echo  "Install Phase - using Open JDK 8"
+  pre_build:
+    commands:
+      - echo "Pre-build phase - No commands to execute"
+  build:
+    commands:
+      - mvn package
+      - echo "Build phase - mvn package execution completed"
+  post_build:
+    commands:
+      - echo "Post Build phase -  No commands to execute"
+artifacts:
+  files:
+    - 'target/03-ebcli-h2.jar'  
+    - '.ebextensions/*'     
+    - 'Procfile'    
